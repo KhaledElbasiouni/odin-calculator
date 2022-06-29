@@ -2,10 +2,11 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-
+    font-family:'Courier New', Courier, monospace;
+    font-weight: 600;
     --primary-color: #F3E9DC;
     --secondary-color: #404E5C;
-    --tertiary-color: #DCEDFF
+    --tertiary-color: #DCEDFF;
 }
 body {
     display: flex;
@@ -19,17 +20,27 @@ body {
     border: solid black 1px;
     display: flex;
     flex-direction: column;
-    background-color: #DCEDFF;
+    background-color: var(--tertiary-color);
     padding: 10px;
     gap: 10px;
+    border-radius: 10px;
 }
 
 .result {
     border: solid black 2px;
     padding: 20px;
-    background-color: white;
-    height: 150px;
+    height: 125px;
     background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: flex-end;
+    border-radius: 4px;
+}
+
+.result-text {
+    color: #ffffff;
+    font-size:40px;
 }
 
 .num-pad{
@@ -50,5 +61,28 @@ button{
     height: 100px;
     font-size: 30px;
     background-color: var(--secondary-color);
-    color: white;
+    color: #ffffff;
+    transition: transform 0.1s;
+    border-radius: 8px;
+    cursor: pointer;
 }
+
+.delete {
+    background-color: #D33F49;
+}
+
+.clear {
+    background-color: #CF5C36;
+}
+button:hover {
+    background-color: #546678;
+    transform: scale(1.02);
+}
+
+.clear:hover{
+    background-color: #CF5C36;
+} 
+.delete:hover {
+    background-color: #D33F49;
+}
+
