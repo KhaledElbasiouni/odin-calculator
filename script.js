@@ -46,7 +46,7 @@ function setCalculator(){
 
     equalBtn.addEventListener('click', setEqualBtn);
     clearBtn.addEventListener('click', setClearBtn);
-    // setDeleteBtn();
+    deleteBtn.addEventListener('click', setDeleteBtn);
     // setDecimalBtn();
     // setSignBtn();
 }
@@ -95,6 +95,27 @@ function setEqualBtn() {
     }
 }
 
+function setClearBtn(){
+    first = "";
+    second = "";
+    op = "";
+    displayText = "";
+    setResult(displayText);
+}
+
+function setDeleteBtn(){
+    displayText = displayText.slice(0,displayText.length - 1);
+    setResult(displayText);
+
+    if(!op){
+        first = first.slice(0, first.length -1);
+    }else if(op && !second){
+        op ="";
+    }else if(op && second){
+        second = second.slice(0, second.length -1);
+    }
+}
+
 function calculate(){
     if(first && second && op){
         first = operate(parseInt(first),parseInt(second), op);
@@ -103,13 +124,7 @@ function calculate(){
     }
 }
 
-function setClearBtn(){
-    first = "";
-    second = "";
-    op = "";
-    displayText = "";
-    setResult(displayText);
-}
+
 
 function setResult(text){
     resultText.textContent = text;
