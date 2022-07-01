@@ -4,6 +4,8 @@ let first = "";
 let second = "";
 let op = "";
 let displayText = "";
+let decPlacedFirst = false;
+let decPlacedSecond = false;
 let evaluate = false;
 const buttons = document.querySelectorAll('button');
 const operands = document.querySelectorAll('.operand');
@@ -47,7 +49,7 @@ function setCalculator(){
     equalBtn.addEventListener('click', setEqualBtn);
     clearBtn.addEventListener('click', setClearBtn);
     deleteBtn.addEventListener('click', setDeleteBtn);
-    // setDecimalBtn();
+    decimalBtn.addEventListener('click', setDecimalBtn);
     // setSignBtn();
 }
 function setOperands(e){
@@ -86,9 +88,13 @@ function setOperator(e){
     setResult(displayText);
 }
 
+function round(num){
+    return +(Math.round(num + "e+3")  + "e-3");
+}
+
 function setEqualBtn() {
     if(first && second && op){
-        first = operate(parseInt(first),parseInt(second), op);
+        first = round(operate(parseFloat(first),parseFloat(second), op));
         second = "";
         displayText = `${first}`;
         setResult(displayText);
@@ -100,12 +106,22 @@ function setClearBtn(){
     second = "";
     op = "";
     displayText = "";
+    decPlacedFirst = false;
+    decPlacedSecond = false;
     setResult(displayText);
 }
 
 function setDeleteBtn(){
+    let prevChar = displayText.charAt(displayText.length - 1);
     displayText = displayText.slice(0,displayText.length - 1);
     setResult(displayText);
+    if(prevChar === '.'){
+        if(!op){
+            decPlacedFirst = false;
+        }else if(op && second){
+            decPlacedSecond = false;
+        }
+    }
 
     if(!op){
         first = first.slice(0, first.length -1);
@@ -116,9 +132,24 @@ function setDeleteBtn(){
     }
 }
 
+function setDecimalBtn(){
+    let prevChar = displayText.charAt(displayText.length - 1);
+    if(!op && !decPlacedFirst){
+        first+= '.';
+        displayText += '.';
+        setResult(displayText);
+        decPlacedFirst = true;
+    }else if(op && prevChar !== op && !decPlacedSecond){
+        second+= '.';
+        displayText += '.';
+        setResult(displayText);
+        decPlacedSecond = true;
+    }
+}
+
 function calculate(){
     if(first && second && op){
-        first = operate(parseInt(first),parseInt(second), op);
+        first = round(operate(parseFloat(first),parseFloat(second), op));
         second = "";
         displayText = `${first}`;
     }
