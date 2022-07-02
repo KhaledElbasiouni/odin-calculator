@@ -2,7 +2,8 @@
 
 let first = "";
 let second = "";
-let op = "";
+let op = undefined;
+let operator = "";
 let displayText = "";
 let decPlacedFirst = false;
 let decPlacedSecond = false;
@@ -50,7 +51,7 @@ function setCalculator(){
     clearBtn.addEventListener('click', setClearBtn);
     deleteBtn.addEventListener('click', setDeleteBtn);
     decimalBtn.addEventListener('click', setDecimalBtn);
-    // setSignBtn();
+    signBtn.addEventListener('click', setSignBtn);
 }
 function setOperands(e){
    if(!op){
@@ -66,7 +67,8 @@ function setOperands(e){
 }
 
 function setOperator(e){
-    let operator = e.target.textContent;
+    let prevChar = displayText.charAt(displayText.length - 1);
+    operator = e.target.textContent;
     if(op){
         calculate();
     }
@@ -84,7 +86,9 @@ function setOperator(e){
             op = divide;
             break; 
     }
-    displayText += operator;
+    if(prevChar !== op){
+        displayText = `${first}${operator}`;
+    }
     setResult(displayText);
 }
 
@@ -96,6 +100,8 @@ function setEqualBtn() {
     if(first && second && op){
         first = round(operate(parseFloat(first),parseFloat(second), op));
         second = "";
+        op = undefined;
+        operator = "";
         displayText = `${first}`;
         setResult(displayText);
     }
@@ -145,6 +151,18 @@ function setDecimalBtn(){
         setResult(displayText);
         decPlacedSecond = true;
     }
+}
+
+function setSignBtn(){
+    let prevChar = displayText.charAt(displayText.length - 1);
+    if(!op || prevChar === op){
+        first = -(Number(first));
+        displayText = `${first}`;
+    }else if(op && prevChar !== op){
+        second = -(Number(second));
+        displayText = `${first}${operator}${second}`;
+    }
+    setResult(displayText);
 }
 
 function calculate(){
