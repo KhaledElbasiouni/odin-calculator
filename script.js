@@ -16,6 +16,7 @@ const signBtn = document.querySelector('.sign');
 const deleteBtn = document.querySelector('.delete');
 const decimalBtn = document.querySelector('.decimal');
 const equalBtn = document.querySelector('.equal')
+const percentBtn = document.querySelector('.percent');
 
 const resultText = document.querySelector('.result-text');
 function add(a,b){
@@ -52,6 +53,8 @@ function setCalculator(){
     deleteBtn.addEventListener('click', setDeleteBtn);
     decimalBtn.addEventListener('click', setDecimalBtn);
     signBtn.addEventListener('click', setSignBtn);
+    percentBtn.addEventListener('click', setPercentBtn);
+    
 }
 function setOperands(e){
    if(!op){
@@ -161,6 +164,17 @@ function setSignBtn(){
     }else if(op && prevChar !== op){
         second = -(Number(second));
         displayText = `${first}${operator}${second}`;
+    }
+    setResult(displayText);
+}
+
+function setPercentBtn(){
+    if(!op || prevChar === op){
+        first = Number(first) / 100;
+        displayText = `${first * 100}%`;
+    }else if(op && prevChar !== op){
+        second = Number(second) / 100;
+        displayText = `${first}${operator}${second * 100}%`;
     }
     setResult(displayText);
 }
