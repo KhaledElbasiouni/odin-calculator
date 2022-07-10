@@ -24,12 +24,13 @@ body {
     padding: 10px;
     gap: 10px;
     border-radius: 10px;
+    max-width: 410px;
 }
 
 .result {
     border: solid black 2px;
     padding: 20px;
-    height: 125px;
+    min-height: 125px;
     background-color: var(--secondary-color);
     display: flex;
     flex-direction: row-reverse;
@@ -40,7 +41,9 @@ body {
 
 .result-text {
     color: #ffffff;
-    font-size:40px;
+    font-size:30px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .num-pad{

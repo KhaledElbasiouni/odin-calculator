@@ -96,7 +96,13 @@ function setOperator(e){
 }
 
 function round(num){
-    return +(Math.round(num + "e+3")  + "e-3");
+    if(num.toString().includes('.') && !num.toString().includes('e') && num.toString().split('.')[1].length > 6){
+        return +(Math.round(num + "e+3")  + "e-3");
+    }else if(num.toString().includes('.') && num.toString().split('.')[1].length > 6){
+        return num
+    }
+
+    return num;
 }
 
 function setEqualBtn() {
@@ -192,6 +198,9 @@ function calculate(){
 
 
 function setResult(text){
+    if(text === "NaN"){
+        setClearBtn();
+    }
     resultText.textContent = text;
 }
 
