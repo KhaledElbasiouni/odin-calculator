@@ -71,10 +71,10 @@ function setOperands(e){
 
 function setOperator(e){
     let prevChar = displayText.charAt(displayText.length - 1);
-    operator = e.target.textContent;
     if(op){
         calculate();
     }
+    operator = e.target.textContent;
     switch (operator){
         case "+":
             op = add;
@@ -100,20 +100,14 @@ function round(num){
 }
 
 function setEqualBtn() {
-    if(first && second && op){
-        first = round(operate(parseFloat(first),parseFloat(second), op));
-        second = "";
-        op = undefined;
-        operator = "";
-        displayText = `${first}`;
-        setResult(displayText);
-    }
+    calculate()
 }
 
 function setClearBtn(){
     first = "";
     second = "";
-    op = "";
+    op = undefined;
+    operator = "";
     displayText = "";
     decPlacedFirst = false;
     decPlacedSecond = false;
@@ -181,9 +175,17 @@ function setPercentBtn(){
 
 function calculate(){
     if(first && second && op){
-        first = round(operate(parseFloat(first),parseFloat(second), op));
-        second = "";
-        displayText = `${first}`;
+        if(operator === '/' && Number(second) === 0){
+            setClearBtn();
+            setResult('MATH ERROR');
+        }else {
+            first = round(operate(parseFloat(first),parseFloat(second), op));
+            second = "";
+            op = undefined;
+            operator = "";
+            displayText = `${first}`;
+            setResult(displayText);
+        }
     }
 }
 
