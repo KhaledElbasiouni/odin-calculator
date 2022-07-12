@@ -41,40 +41,49 @@ function operate(a,b,op){
 
 function setCalculator(){
     operands.forEach(
-        item => item.addEventListener('click', e => setOperands(e))
+        item => item.addEventListener('click', e => appendNumber(e.target.textContent))
     );
 
     operators.forEach(
-        item => item.addEventListener('click', e => setOperator(e))
+        item => item.addEventListener('click', e => setOperator(e.target.textContent))
     );
 
     equalBtn.addEventListener('click', setEqualBtn);
-    clearBtn.addEventListener('click', setClearBtn);
-    deleteBtn.addEventListener('click', setDeleteBtn);
-    decimalBtn.addEventListener('click', setDecimalBtn);
+    clearBtn.addEventListener('click', clear);
+    deleteBtn.addEventListener('click', erase);
+    decimalBtn.addEventListener('click', appendDecimal);
     signBtn.addEventListener('click', setSignBtn);
     percentBtn.addEventListener('click', setPercentBtn);
-    
+    window.addEventListener('keydown', setKeyboardInput);
 }
-function setOperands(e){
+
+function setKeyboardInput(e) {
+  if (e.key >= 0 && e.key <= 9) appendNumber(e.key)
+  if (e.key === '.') appendDecimal()
+  if (e.key === '=' || e.key === 'Enter') setEqualBtn()
+  if (e.key === 'Backspace') erase()
+  if (e.key === 'Escape') clear()
+  if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/')
+    setOperator(e.key)
+}
+
+function appendNumber(number){
    if(!op){
-        first += e.target.textContent;
-        displayText += e.target.textContent;
-        // console.log(`first: ${first}`);
+        first += number;
+        displayText += number;
     }else{
-        second += e.target.textContent;
-        displayText += e.target.textContent;
-        // console.log(`second: ${second}`);
+        second += number;
+        displayText += number;
     }
     setResult(displayText);
 }
 
-function setOperator(e){
+function setOperator(newOp){
     let prevChar = displayText.charAt(displayText.length - 1);
     if(op){
         calculate();
     }
-    operator = e.target.textContent;
+    operator = newOp;
     switch (operator){
         case "+":
             op = add;
@@ -109,7 +118,7 @@ function setEqualBtn() {
     calculate()
 }
 
-function setClearBtn(){
+function clear(){
     first = "";
     second = "";
     op = undefined;
@@ -120,7 +129,7 @@ function setClearBtn(){
     setResult(displayText);
 }
 
-function setDeleteBtn(){
+function erase(){
     let prevChar = displayText.charAt(displayText.length - 1);
     displayText = displayText.slice(0,displayText.length - 1);
     setResult(displayText);
@@ -141,7 +150,7 @@ function setDeleteBtn(){
     }
 }
 
-function setDecimalBtn(){
+function appendDecimal(){
     let prevChar = displayText.charAt(displayText.length - 1);
     if(!op && !decPlacedFirst){
         first+= '.';
@@ -182,7 +191,7 @@ function setPercentBtn(){
 function calculate(){
     if(first && second && op){
         if(operator === '/' && Number(second) === 0){
-            setClearBtn();
+            clear();
             setResult('MATH ERROR');
         }else {
             first = round(operate(parseFloat(first),parseFloat(second), op));
@@ -199,7 +208,7 @@ function calculate(){
 
 function setResult(text){
     if(text === "NaN"){
-        setClearBtn();
+        clear();
     }
     resultText.textContent = text;
 }
