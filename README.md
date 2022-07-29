@@ -1,3 +1,4 @@
+
 # Odin-calculator
 
 A basic implementation of a calculator to showcase the basics of Javascript with a focus on the correct application of logic.
